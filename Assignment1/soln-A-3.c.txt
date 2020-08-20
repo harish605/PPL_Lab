@@ -1,0 +1,70 @@
+
+int main()
+{
+        int sum = 0;
+        int i, j;
+
+        while(sum < 100) {
+                sum = sum * 2;
+        }
+
+        for(i=0; i<25; i++) {
+                for(j=0; j<50; j++) {
+                        sum = sum + i*j;
+                }
+        }
+}
+
+
+
+
+
+
+^M
+;; Function main (main, funcdef_no=0, decl_uid=1499, cgraph_uid=1, symbol_order=0)^M
+^M
+;; 4 loops found^M
+;;^M
+;; Loop 0^M
+;;  header 0, latch 1^M
+;;  depth 0, outer -1^M
+;;  nodes: 0 1 2 3 4 5 6 7 8 9 10 11 12^M
+;;^M
+;; Loop 2^M
+;;  header 10, latch 9^M
+;;  depth 1, outer 0^M
+;;  nodes: 10 9 8 6 7^M
+;;^M
+;; Loop 3^M
+;;  header 8, latch 7^M
+;;  depth 2, outer 2^M
+;;  nodes: 8 7^M
+;;^M
+;; Loop 1^M
+;;  header 4, latch 3^M
+;;  depth 1, outer 0^M
+;;  nodes: 4 3^M
+;; 2 succs { 4 }^M
+;; 3 succs { 4 }^M
+;; 4 succs { 3 5 }^M
+;; 5 succs { 10 }^M
+;; 6 succs { 8 }^M
+;; 7 succs { 8 }^M
+;; 8 succs { 7 9 }^M
+;; 9 succs { 10 }^M
+;; 10 succs { 6 11 }^M
+;; 11 succs { 12 }^M
+
+
+
+1. BB 3 and 4 correspond to the while loop. BB2 avoids executing an iteration
+   unconditionally by having an unconditional goto to BB4 which is the while
+   loop conditional. This is different from the if-else jumps, which always seem
+   to be conditional.
+
+2. BB 5:  Outer loop induction variable initialisation
+   BB 10: Outer loop conditional check
+   BB 6:  Inner loop induction variable initialisation
+   BB 8:  Inner loop conditional check
+   BB 7:  Inner loop body + induction variable increment
+   BB 9:  Outer loop induction variable increment

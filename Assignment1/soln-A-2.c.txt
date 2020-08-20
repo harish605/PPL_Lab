@@ -1,0 +1,81 @@
+f ()^M
+{
+  int a;
+  int b;
+  int c;
+
+  a = Z;
+  if (a <= 9) goto <D.1506>; else goto <D.1507>;
+  <D.1506>:
+  b = 5;
+  c = 17;
+  goto <D.1508>;
+  <D.1507>:
+  b = 6;
+  c = 20;
+  if (a == 0) goto <D.1509>; else goto <D.1510>;
+  <D.1509>:
+  c = 0;
+  <D.1510>:
+  <D.1508>:
+  _1 = b * 10;
+  _2 = c + _1;
+  Z = _2;
+}
+^M
+^M
+
+1. If-blocks are turned into conditional gotos to labels. Unconditional gotos
+   are a goto by themselves on a line. Conditional gotos always have two labels
+   for the taken and not-taken branches.
+
+2. It's a bit easier to see the control flow in this representation, but
+   slightly less concise in terms of number of lines.
+
+Additional problem
+
+void f() {
+  int a = 1, b = 2, c = 3, x;
+  x = a ? b : c;
+}
+
+^M
+;; Function f (f, funcdef_no=0, decl_uid=1499, cgraph_uid=1, symbol_order=0)^M
+^M
+;; 1 loops found^M
+;;^M
+;; Loop 0^M
+;;  header 0, latch 1^M
+;;  depth 0, outer -1^M
+;;  nodes: 0 1 2 3 4 5^M
+;; 2 succs { 3 4 }^M
+;; 3 succs { 5 }^M
+;; 4 succs { 5 }^M
+;; 5 succs { 1 }^M
+f ()^M
+{^M
+  int x;^M
+  int c;^M
+  int b;^M
+  int a;^M
+  int iftmp.0;^M
+^M
+  <bb 2> :^M
+  a = 1;
+  b = 2;
+  c = 3;
+  if (a != 0)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 4>; [INV]
+^M
+  <bb 3> :^M
+  iftmp.0 = b;
+  goto <bb 5>; [INV]
+^M
+  <bb 4> :^M
+  iftmp.0 = c;
+^M
+  <bb 5> :^M
+  x = iftmp.0;
+  return;
