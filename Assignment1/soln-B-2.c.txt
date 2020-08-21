@@ -1,0 +1,55 @@
+int N;
+
+int main()
+{
+    int i, a = 10;
+    for(i= 0; i < 4; i++)
+    {
+        a = a + N;
+    };
+    return a;
+}
+
+^M
+;; Function main (main, funcdef_no=0, decl_uid=1500, cgraph_uid=1, symbol_order=1)^M
+^M
+main ()^M
+{^M
+  int a;^M
+  int i;^M
+  int D.1508;^M
+  int N.0_1;^M
+  int _6;^M
+^M
+<bb 2> :^M
+  a_4 = 10;
+  i_5 = 0;
+  goto <bb 4>; [INV]
+^M
+  <bb 3> :^M
+  N.0_1 = N;
+  a_8 = a_3 + N.0_1;
+  i_9 = i_2 + 1;
+^M
+  <bb 4> :^M
+ # i_2 = PHI <i_5(2), i_9(3)>
+  # a_3 = PHI <a_4(2), a_8(3)>
+  if (i_2 <= 3)
+    goto <bb 3>; [INV]
+  else
+    goto <bb 5>; [INV]
+^M
+  <bb 5> :^M
+  _6 = a_3;
+^M
+  <bb 6> :^M
+<L3>:
+  return _6;
+^M
+}^M
+^M
+^M
+
+
+1. The compiler will be able to evaluate the final value of a and turn the
+   function into the equivalent of "return 14".
